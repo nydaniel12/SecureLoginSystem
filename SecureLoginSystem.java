@@ -27,32 +27,35 @@ public class SecureLoginSystem {
         }
     }
 
-    static void createAccount() {
-        System.out.print("Enter username: ");
-        String username = scanner.nextLine();
+   static void createAccount() {
+    System.out.print("Enter username: ");
+    String username = scanner.nextLine();
 
-        if (userDatabase.containsKey(username)) {
-            System.out.println("Username already exists.");
-            return;
-        }
-
-        String password;
-        while (true) {
-            System.out.print("Enter strong password: ");
-            password = scanner.nextLine();
-            if (isStrongPassword(password)) break;
-            else System.out.println("Password must be at least 8 characters long, contain uppercase, lowercase, digit, and special character.");
-        }
-
-        System.out.print("Set a security question (e.g., What is your pet's name?): ");
-        String question = scanner.nextLine();
-
-        System.out.print("Answer to your security question: ");
-        String answer = scanner.nextLine();
-
-        userDatabase.put(username, new User(username, password, question, answer));
-        System.out.println("Account created successfully!");
+    if (userDatabase.containsKey(username)) {
+        System.out.println("Username already exists.");
+        return;
     }
+
+    String password;
+    while (true) {
+        System.out.print("Enter strong password: ");
+        password = scanner.nextLine();
+        if (isStrongPassword(password)) break;
+        else System.out.println("Password must be at least 8 characters long, contain uppercase, lowercase, digit, and special character.");
+    }
+
+    int hashedPassword = simpleHash(password); // <- your part: hash the password
+
+    System.out.print("Set a security question (e.g., What is your pet's name?): ");
+    String question = scanner.nextLine();
+
+    System.out.print("Answer to your security question: ");
+    String answer = scanner.nextLine();
+
+    userDatabase.put(username, new User(username, String.valueOf(hashedPassword), question, answer));
+    System.out.println("Account created successfully!");
+}
+
 
     static void login() {
         System.out.print("Enter username: ");
