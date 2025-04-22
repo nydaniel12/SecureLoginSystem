@@ -1,0 +1,41 @@
+    static void createAccount() { // Method to create a new user account
+        System.out.print("Enter username: "); // Prompt for the username
+        String username = scanner.nextLine(); // Read the username input from the user
+
+        if (userDatabase.containsKey(username)) { // Check if the username already exists in the database
+            System.out.println("Username already exists."); // Inform the user if the username is taken
+            return; // Exit the method if the username is already taken
+        }
+
+        String password; // Declare a variable to store the password
+        while (true) { // Start a loop to repeatedly ask for a strong password
+            System.out.print("Enter strong password: "); // Prompt for the password
+            password = scanner.nextLine(); // Read the password input
+
+            if (isStrongPassword(password)) // Check if the password is strong using regex
+                break; // Exit the loop if the password is valid
+            else
+                System.out.println("Password must be at least 8 characters long, contain uppercase, lowercase, digit, and special character."); // Inform the user if the password is weak
+        }
+
+        int hashedPassword = simpleHash(password); // Hash the password using the simpleHash method
+
+        System.out.print("Set a security question (e.g., What is your pet's name?): "); // Prompt for a security question
+        String question = scanner.nextLine(); // Read the security question
+
+        System.out.print("Answer to your security question: "); // Prompt for the answer to the security question
+        String answer = scanner.nextLine(); // Read the answer to the security question
+
+        // Store the user information in the userDatabase map
+        userDatabase.put(username, new User(username, String.valueOf(hashedPassword), question, answer));
+        System.out.println("Account created successfully!"); // Inform the user that the account has been created
+    }
+
+    static boolean isStrongPassword(String password) { // Method to check if the password is strong
+        String pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$"; // Regular expression to define a strong password
+        return Pattern.matches(pattern, password); // Check if the password matches the pattern
+    }
+
+    static int simpleHash(String input) { // Method to hash the password (simple hash function)
+        return input.hashCode(); // Use Java's built-in hashCode() method to hash the input string
+    }
