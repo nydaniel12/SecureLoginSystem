@@ -1,0 +1,29 @@
+import java.util.*; // Import the entire utility package (for collections like HashMap)
+import java.util.regex.*; // Import the regular expressions package for password validation
+
+public class SecureLoginSystem { // Declare the class
+    static Scanner scanner = new Scanner(System.in); // Create a scanner object to read user input
+    static Map<String, User> userDatabase = new HashMap<>(); // Create a map to store user data (key = username, value = User object)
+
+    public static void main(String[] args) { // Main method where the program starts
+        while (true) { // Infinite loop to display the menu repeatedly
+            System.out.println("\n=== Secure Login System ==="); // Print the menu title
+            System.out.println("1. Create Account"); // Option to create an account
+            System.out.println("2. Login"); // Option to log in to an account
+            System.out.println("3. Exit"); // Option to exit the program
+            System.out.print("Choose an option: "); // Prompt the user to choose an option
+            int choice = scanner.nextInt(); // Read the user's choice as an integer
+            scanner.nextLine(); // Consume the newline character left by nextInt()
+
+            switch (choice) { // Switch statement to handle the user's choice
+                case 1 -> createAccount(); // Call the createAccount method for option 1
+                case 2 -> login(); // Call the login method for option 2
+                case 3 -> { // Case 3 exits the program
+                    System.out.println("Goodbye!"); // Print a goodbye message
+                    return; // Exit the program
+                }
+                default -> System.out.println("Invalid option."); // Print error message for invalid options
+            }
+        }
+    }
+}
